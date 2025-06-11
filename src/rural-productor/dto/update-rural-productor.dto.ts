@@ -1,9 +1,13 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { DocumentType } from '../types';
+import { PartialType } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import { CreateRuralProductorDto } from './create-rural-productor.dto';
 
 export class UpdateRuralProductorDto extends PartialType(
   CreateRuralProductorDto,
 ) {
-  documentType?: DocumentType;
+  static toPrisma(
+    dto: UpdateRuralProductorDto,
+  ): Prisma.RuralProductorUpdateInput {
+    return { ...dto };
+  }
 }
