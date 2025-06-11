@@ -40,9 +40,22 @@ model Property {
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @updatedAt
   productor               RuralProductor @relation(fields: [productorId], references: [id])
+  crops                   Crop[]
 
   @@unique([productorId, name])
   @@index([state])
   @@index([productorId])
   @@map("properties")
+}
+
+model Crop {
+  id         Int      @id @default(autoincrement())
+  name       String
+  propertyId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([name])
+  @@map("crops")
 }
