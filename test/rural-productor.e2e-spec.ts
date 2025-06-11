@@ -2,17 +2,17 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
-import { UpdateRuralProductorDto } from 'src/rural-productor/dto/update-rural-productor.dto';
+import { UpdateRuralProducerDto } from 'src/rural-producer/dto/update-rural-producer.dto';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
-import { CreateRuralProductorDto } from '../src/rural-productor/dto/create-rural-productor.dto';
-import { RuralProductorService } from '../src/rural-productor/rural-productor.service';
+import { CreateRuralProducerDto } from '../src/rural-producer/dto/create-rural-producer.dto';
+import { RuralProducerService } from '../src/rural-producer/rural-producer.service';
 
-describe('RuralProductorController (e2e)', () => {
+describe('RuralProducerController (e2e)', () => {
   let app: INestApplication<App>;
-  const baseUrl = '/rural-productor';
-  let ruralProductorService: RuralProductorService;
+  const baseUrl = '/rural-producer';
+  let RuralProducerService: RuralProducerService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -21,33 +21,33 @@ describe('RuralProductorController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    ruralProductorService = app.get<RuralProductorService>(
-      RuralProductorService,
+    RuralProducerService = app.get<RuralProducerService>(
+      RuralProducerService,
     );
   });
 
   it('should create a rural productor', async () => {
-    const createRuralProductorDto: CreateRuralProductorDto = {
+    const createRuralProducerDto: CreateRuralProducerDto = {
       documentNumber: '12345678901',
       name: 'John Doe',
       documentType: 'cpf',
       isActive: true,
     };
 
-    const mockRuralProductor: Prisma.RuralProductorCreateInput = {
+    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
       id: 'some-uuid',
-      ...createRuralProductorDto,
+      ...createRuralProducerDto,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
     jest
-      .spyOn(ruralProductorService, 'create')
-      .mockResolvedValue(mockRuralProductor);
+      .spyOn(RuralProducerService, 'create')
+      .mockResolvedValue(mockRuralProducer);
 
     return request(app.getHttpServer())
       .post(baseUrl)
-      .send(createRuralProductorDto)
+      .send(createRuralProducerDto)
       .expect(201)
       .expect((res) => {
         expect(res.body).toBeDefined();
@@ -56,7 +56,7 @@ describe('RuralProductorController (e2e)', () => {
   });
 
   it('should return 400 if document number is invalid', async () => {
-    const invalidRuralProductorDto: CreateRuralProductorDto = {
+    const invalidRuralProducerDto: CreateRuralProducerDto = {
       documentNumber: 'invalid-document',
       name: 'Invalid User',
       documentType: 'cpf',
@@ -64,7 +64,7 @@ describe('RuralProductorController (e2e)', () => {
     };
     return request(app.getHttpServer())
       .post(baseUrl)
-      .send(invalidRuralProductorDto)
+      .send(invalidRuralProducerDto)
       .expect(400)
       .expect((res) => {
         expect(res.body).toBeDefined();
@@ -85,34 +85,34 @@ describe('RuralProductorController (e2e)', () => {
 
   it('should get a rural productor by id', async () => {
     // GIVEN
-    const createRuralProductorDto: CreateRuralProductorDto = {
+    const createRuralProducerDto: CreateRuralProducerDto = {
       documentNumber: '98765432109',
       name: 'Jane Doe',
       documentType: 'cpf',
       isActive: true,
     };
 
-    const mockRuralProductor: Prisma.RuralProductorCreateInput = {
+    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
       id: randomUUID(),
-      ...createRuralProductorDto,
+      ...createRuralProducerDto,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
     jest
-      .spyOn(ruralProductorService, 'create')
-      .mockResolvedValue(mockRuralProductor);
+      .spyOn(RuralProducerService, 'create')
+      .mockResolvedValue(mockRuralProducer);
 
     const createResponse = await request(app.getHttpServer())
       .post(baseUrl)
-      .send(createRuralProductorDto);
+      .send(createRuralProducerDto);
 
     const { id } = createResponse.body as { id: string };
 
     // WHEN
     jest
-      .spyOn(ruralProductorService, 'findOne')
-      .mockResolvedValue(mockRuralProductor);
+      .spyOn(RuralProducerService, 'findOne')
+      .mockResolvedValue(mockRuralProducer);
 
     // THEN
     return request(app.getHttpServer())
@@ -125,9 +125,9 @@ describe('RuralProductorController (e2e)', () => {
           expect(res.body).toBeDefined();
           expect(res.body.id).toEqual(id);
           expect(res.body.documentNumber).toEqual(
-            createRuralProductorDto.documentNumber,
+            createRuralProducerDto.documentNumber,
           );
-          expect(res.body.name).toEqual(createRuralProductorDto.name);
+          expect(res.body.name).toEqual(createRuralProducerDto.name);
         },
       );
   });
@@ -147,40 +147,40 @@ describe('RuralProductorController (e2e)', () => {
 
   it('should update a rural productor', async () => {
     // GIVEN
-    const createRuralProductorDto: CreateRuralProductorDto = {
+    const createRuralProducerDto: CreateRuralProducerDto = {
       documentNumber: '11223344556',
       name: 'Original Name',
       documentType: 'cpf',
       isActive: true,
     };
 
-    const mockRuralProductor: Prisma.RuralProductorCreateInput = {
+    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
       id: randomUUID(),
-      ...createRuralProductorDto,
+      ...createRuralProducerDto,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
     jest
-      .spyOn(ruralProductorService, 'create')
-      .mockResolvedValue(mockRuralProductor);
+      .spyOn(RuralProducerService, 'create')
+      .mockResolvedValue(mockRuralProducer);
 
     const createResponse = await request(app.getHttpServer())
       .post(baseUrl)
-      .send(createRuralProductorDto);
+      .send(createRuralProducerDto);
 
     const { id } = createResponse.body as { id: string };
 
     // THEN
-    const updateRuralProductorDto: UpdateRuralProductorDto = {
+    const updateRuralProducerDto: UpdateRuralProducerDto = {
       name: 'Updated Name',
     };
 
-    const mockUpdatedRuralProductor: Prisma.RuralProductorCreateInput = {
+    const mockUpdatedRuralProducer: Prisma.RuralProducerCreateInput = {
       id,
-      documentNumber: createRuralProductorDto.documentNumber,
-      documentType: createRuralProductorDto.documentType,
-      isActive: createRuralProductorDto.isActive,
+      documentNumber: createRuralProducerDto.documentNumber,
+      documentType: createRuralProducerDto.documentType,
+      isActive: createRuralProducerDto.isActive,
       name: 'Updated Name',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -188,55 +188,55 @@ describe('RuralProductorController (e2e)', () => {
     };
 
     jest
-      .spyOn(ruralProductorService, 'update')
-      .mockResolvedValue(mockUpdatedRuralProductor);
+      .spyOn(RuralProducerService, 'update')
+      .mockResolvedValue(mockUpdatedRuralProducer);
 
     return request(app.getHttpServer())
       .patch(`${baseUrl}/${id}`)
-      .send(updateRuralProductorDto)
+      .send(updateRuralProducerDto)
       .expect(200)
       .expect((res: { body: { name: string } }) => {
         expect(res.body).toBeDefined();
-        expect(res.body.name).toEqual(updateRuralProductorDto.name);
+        expect(res.body.name).toEqual(updateRuralProducerDto.name);
       });
   });
 
   it('should delete a rural productor', async () => {
     // GIVEN
-    const createRuralProductorDto: CreateRuralProductorDto = {
+    const createRuralProducerDto: CreateRuralProducerDto = {
       documentNumber: '66554433221',
       name: 'To be deleted',
       documentType: 'cpf',
       isActive: true,
     };
 
-    const mockRuralProductor: Prisma.RuralProductorCreateInput = {
+    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
       id: randomUUID(),
-      ...createRuralProductorDto,
+      ...createRuralProducerDto,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
     jest
-      .spyOn(ruralProductorService, 'create')
-      .mockResolvedValue(mockRuralProductor);
+      .spyOn(RuralProducerService, 'create')
+      .mockResolvedValue(mockRuralProducer);
 
     await request(app.getHttpServer())
       .post(baseUrl)
-      .send(createRuralProductorDto);
+      .send(createRuralProducerDto);
 
-    const id = mockRuralProductor.id!;
+    const id = mockRuralProducer.id!;
 
-    const mockDeletedRuralProductor: Prisma.RuralProductorCreateInput = {
-      ...mockRuralProductor,
+    const mockDeletedRuralProducer: Prisma.RuralProducerCreateInput = {
+      ...mockRuralProducer,
       isActive: false,
       updatedAt: new Date(),
     };
 
     // WHEN
     jest
-      .spyOn(ruralProductorService, 'remove')
-      .mockResolvedValue(mockDeletedRuralProductor);
+      .spyOn(RuralProducerService, 'remove')
+      .mockResolvedValue(mockDeletedRuralProducer);
 
     // THEN
     return request(app.getHttpServer()).delete(`${baseUrl}/${id}`).expect(200);

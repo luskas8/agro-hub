@@ -2,23 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateRuralProductorDto } from './dto/create-rural-productor.dto';
-import { UpdateRuralProductorDto } from './dto/update-rural-productor.dto';
-import { RuralProductorService } from './rural-productor.service';
+import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
+import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
+import { RuralProducerService } from './rural-producer.service';
 
 const MOCK_DATE = new Date('2025-01-01T10:00:00Z');
 
-describe('RuralProductorService', () => {
-  let service: RuralProductorService;
+describe('RuralProducerService', () => {
+  let service: RuralProducerService;
 
-  const input: CreateRuralProductorDto = {
+  const input: CreateRuralProducerDto = {
     documentType: 'cpf',
     documentNumber: '12345678900',
     name: 'John Doe',
     isActive: true,
   };
 
-  const created: Prisma.RuralProductorCreateInput = {
+  const created: Prisma.RuralProducerCreateInput = {
     id: 'some-uuid',
     documentType: 'cpf',
     documentNumber: '12345678900',
@@ -29,7 +29,7 @@ describe('RuralProductorService', () => {
     properties: undefined,
   };
 
-  const updateData: UpdateRuralProductorDto = {
+  const updateData: UpdateRuralProducerDto = {
     name: 'Updated Name',
   };
 
@@ -50,7 +50,7 @@ describe('RuralProductorService', () => {
         {
           provide: PrismaService,
           useValue: {
-            ruralProductor: {
+            RuralProducer: {
               create: jest.fn(),
               findMany: jest.fn(),
               findUnique: jest.fn(),
@@ -59,7 +59,7 @@ describe('RuralProductorService', () => {
           },
         },
         {
-          provide: RuralProductorService,
+          provide: RuralProducerService,
           useValue: {
             create: jest.fn(() => Promise.resolve(created)),
             findAll: jest.fn(() => Promise.resolve([created])),
@@ -71,7 +71,7 @@ describe('RuralProductorService', () => {
       ],
     }).compile();
 
-    service = module.get<RuralProductorService>(RuralProductorService);
+    service = module.get<RuralProducerService>(RuralProducerService);
   });
 
   it('should be defined', () => {

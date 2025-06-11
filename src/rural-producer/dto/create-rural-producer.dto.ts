@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 import { IsValidDocument } from '../validators/document-number';
-export class CreateRuralProductorDto {
+export class CreateRuralProducerDto {
   @ApiProperty({
     description: 'Número de documento do produtor rural',
   })
@@ -22,7 +22,7 @@ export class CreateRuralProductorDto {
     required: false,
     enum: ['cpf', 'cnpj'],
   })
-  @ValidateIf((o: CreateRuralProductorDto) => o.documentNumber !== undefined)
+  @ValidateIf((o: CreateRuralProducerDto) => o.documentNumber !== undefined)
   @IsEnum(['cpf', 'cnpj'], {
     message: 'Os tipos de documento válidos são: cpf ou cnpj',
   })

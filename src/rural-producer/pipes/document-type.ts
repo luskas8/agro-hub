@@ -4,13 +4,13 @@ import {
   Logger,
   PipeTransform,
 } from '@nestjs/common';
-import { CreateRuralProductorDto } from '../dto/create-rural-productor.dto';
+import { CreateRuralProducerDto } from '../dto/create-rural-producer.dto';
 
 @Injectable()
 export class DocumentTypePipe implements PipeTransform {
   private readonly logger = new Logger(DocumentTypePipe.name);
 
-  transform(value: CreateRuralProductorDto) {
+  transform(value: CreateRuralProducerDto) {
     this.logger.log('Transforming document type');
     if (value.documentNumber) {
       const documentNumber = value.documentNumber.replace(/\D/g, '');

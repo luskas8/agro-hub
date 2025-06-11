@@ -13,12 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model RuralProductor {
+model RuralProducer {
   id             String       @id @default(uuid())
   documentNumber String       @unique
   documentType   DocumentType
   name           String
-  properties     Property[]
+  properties     Farm[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   isActive       Boolean      @default(true)
@@ -29,33 +29,33 @@ enum DocumentType {
   cnpj
 }
 
-model Property {
-  id                      String         @id @default(uuid())
+model Farm {
+  id                      String        @id @default(uuid())
   name                    String
   city                    String
   state                   String
   totalAreaInHectares     Float
   vegetableAreaInHectares Float
   arableAreaInHectares    Float
-  productorId             String
-  createdAt               DateTime       @default(now())
-  updatedAt               DateTime       @updatedAt
-  productor               RuralProductor @relation(fields: [productorId], references: [id])
+  producerId              String
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  producer                RuralProducer @relation(fields: [producerId], references: [id])
   crops                   Crop[]
 
-  @@unique([productorId, name])
+  @@unique([producerId, name])
   @@index([state])
-  @@index([productorId])
+  @@index([producerId])
   @@map("properties")
 }
 
 model Crop {
-  id         Int      @id @default(autoincrement())
-  name       String
-  propertyId String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  property   Property @relation(fields: [propertyId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String
+  farmId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  farm      Farm     @relation(fields: [farmId], references: [id])
 
   @@index([name])
   @@map("crops")

@@ -2,26 +2,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateRuralProductorDto } from './dto/create-rural-productor.dto';
-import { UpdateRuralProductorDto } from './dto/update-rural-productor.dto';
-import { RuralProductorController } from './rural-productor.controller';
-import { RuralProductorService } from './rural-productor.service';
+import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
+import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
+import { RuralProducerController } from './rural-producer.controller';
+import { RuralProducerService } from './rural-producer.service';
 import { NotFoundException } from '@nestjs/common';
 
 const MOCK_DATE = new Date('2025-01-01T10:00:00Z');
 
-describe('RuralProductorController', () => {
-  let controller: RuralProductorController;
-  let service: RuralProductorService; // This will now be our mocked service
+describe('RuralProducerController', () => {
+  let controller: RuralProducerController;
+  let service: RuralProducerService; // This will now be our mocked service
 
-  const input: CreateRuralProductorDto = {
+  const input: CreateRuralProducerDto = {
     documentType: 'cpf',
     documentNumber: '12345678900',
     name: 'John Doe',
     isActive: true,
   };
 
-  const created: Prisma.RuralProductorCreateInput = {
+  const created: Prisma.RuralProducerCreateInput = {
     ...input,
     id: 'some-uuid',
     isActive: true,
@@ -30,7 +30,7 @@ describe('RuralProductorController', () => {
     properties: undefined,
   };
 
-  const update: UpdateRuralProductorDto = {
+  const update: UpdateRuralProducerDto = {
     name: 'Updated Name',
   };
 
@@ -45,7 +45,7 @@ describe('RuralProductorController', () => {
   };
 
   beforeEach(async () => {
-    const mockRuralProductorService = {
+    const mockRuralProducerService = {
       create: jest.fn().mockResolvedValue(created),
       findAll: jest.fn().mockResolvedValue([created]),
       findOne: jest.fn().mockResolvedValue(created),
@@ -56,13 +56,13 @@ describe('RuralProductorController', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: RuralProductorService,
-          useValue: mockRuralProductorService,
+          provide: RuralProducerService,
+          useValue: mockRuralProducerService,
         },
         {
           provide: PrismaService,
           useValue: {
-            ruralProductor: {
+            RuralProducer: {
               create: jest.fn(),
               findMany: jest.fn(),
               findUnique: jest.fn(),
@@ -72,11 +72,11 @@ describe('RuralProductorController', () => {
           },
         },
       ],
-      controllers: [RuralProductorController],
+      controllers: [RuralProducerController],
     }).compile();
 
-    controller = module.get<RuralProductorController>(RuralProductorController);
-    service = module.get<RuralProductorService>(RuralProductorService);
+    controller = module.get<RuralProducerController>(RuralProducerController);
+    service = module.get<RuralProducerService>(RuralProducerService);
   });
 
   it('should be defined', () => {
