@@ -12,7 +12,7 @@ import { RuralProducerService } from '../src/rural-producer/rural-producer.servi
 describe('RuralProducerController (e2e)', () => {
   let app: INestApplication<App>;
   const baseUrl = '/rural-producer';
-  let RuralProducerService: RuralProducerService;
+  let ruralProducerService: RuralProducerService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -21,9 +21,7 @@ describe('RuralProducerController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    RuralProducerService = app.get<RuralProducerService>(
-      RuralProducerService,
-    );
+    ruralProducerService = app.get<RuralProducerService>(RuralProducerService);
   });
 
   it('should create a rural productor', async () => {
@@ -42,7 +40,7 @@ describe('RuralProducerController (e2e)', () => {
     };
 
     jest
-      .spyOn(RuralProducerService, 'create')
+      .spyOn(ruralProducerService, 'create')
       .mockResolvedValue(mockRuralProducer);
 
     return request(app.getHttpServer())
@@ -100,7 +98,7 @@ describe('RuralProducerController (e2e)', () => {
     };
 
     jest
-      .spyOn(RuralProducerService, 'create')
+      .spyOn(ruralProducerService, 'create')
       .mockResolvedValue(mockRuralProducer);
 
     const createResponse = await request(app.getHttpServer())
@@ -111,7 +109,7 @@ describe('RuralProducerController (e2e)', () => {
 
     // WHEN
     jest
-      .spyOn(RuralProducerService, 'findOne')
+      .spyOn(ruralProducerService, 'findOne')
       .mockResolvedValue(mockRuralProducer);
 
     // THEN
@@ -162,7 +160,7 @@ describe('RuralProducerController (e2e)', () => {
     };
 
     jest
-      .spyOn(RuralProducerService, 'create')
+      .spyOn(ruralProducerService, 'create')
       .mockResolvedValue(mockRuralProducer);
 
     const createResponse = await request(app.getHttpServer())
@@ -188,7 +186,7 @@ describe('RuralProducerController (e2e)', () => {
     };
 
     jest
-      .spyOn(RuralProducerService, 'update')
+      .spyOn(ruralProducerService, 'update')
       .mockResolvedValue(mockUpdatedRuralProducer);
 
     return request(app.getHttpServer())
@@ -218,7 +216,7 @@ describe('RuralProducerController (e2e)', () => {
     };
 
     jest
-      .spyOn(RuralProducerService, 'create')
+      .spyOn(ruralProducerService, 'create')
       .mockResolvedValue(mockRuralProducer);
 
     await request(app.getHttpServer())
@@ -235,7 +233,7 @@ describe('RuralProducerController (e2e)', () => {
 
     // WHEN
     jest
-      .spyOn(RuralProducerService, 'remove')
+      .spyOn(ruralProducerService, 'remove')
       .mockResolvedValue(mockDeletedRuralProducer);
 
     // THEN

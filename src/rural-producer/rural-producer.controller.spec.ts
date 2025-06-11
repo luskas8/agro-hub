@@ -12,7 +12,7 @@ const MOCK_DATE = new Date('2025-01-01T10:00:00Z');
 
 describe('RuralProducerController', () => {
   let controller: RuralProducerController;
-  let service: RuralProducerService; // This will now be our mocked service
+  let service: RuralProducerService;
 
   const input: CreateRuralProducerDto = {
     documentType: 'cpf',
