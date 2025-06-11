@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { LoggerModule } from 'nestjs-pino';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerModule } from 'nestjs-pino';
+import { AppController } from './app.controller';
 import { PrismaService } from './prisma/prisma.service';
+import { RuralProductorModule } from './rural-productor/rural-productor.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PrismaService } from './prisma/prisma.service';
             : undefined,
       },
     }),
+    RuralProductorModule,
   ],
   controllers: [AppController],
   providers: [PrismaService],
