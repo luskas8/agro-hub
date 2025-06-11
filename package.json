@@ -1,6 +1,6 @@
 {
   "name": "agro-hub",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "API para gestão de produtores rurais e propriedades agrícolas, incluindo cadastro, validação de dados e dashboard analítico.",
   "author": "luskas8",
   "private": true,
