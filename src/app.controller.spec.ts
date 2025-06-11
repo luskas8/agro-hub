@@ -1,6 +1,6 @@
+import { ForbiddenException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
-import { ForbiddenException } from '@nestjs/common';
 
 describe('AppController', () => {
   let appController: AppController;
