@@ -142,10 +142,10 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
-/prisma/**
+/prisma/*
 # Ignore Prisma migrations and schema files
 !/prisma/schema.prisma
-!/prisma/migrations/
+!/prisma/migrations*
 
 /local
 /postgres_data
