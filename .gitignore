@@ -149,4 +149,4 @@ dist
 
 /local
 /postgres_data
-/generated/prisma
+/src/prisma/generated
