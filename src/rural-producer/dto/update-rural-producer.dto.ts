@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../prisma/generated/client';
 import { CreateRuralProducerDto } from './create-rural-producer.dto';
 
 export class UpdateRuralProducerDto extends PartialType(

@@ -11,7 +11,7 @@ import {
   Post,
   ValidationPipe,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../prisma/generated/client';
 import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { DocumentTypePipe } from './pipes/document-type';
