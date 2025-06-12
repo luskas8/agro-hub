@@ -1,6 +1,6 @@
 {
   "name": "agro-hub",
-  "version": "3.1.0",
+  "version": "3.3.3",
   "description": "API para gestão de produtores rurais e propriedades agrícolas, incluindo cadastro, validação de dados e dashboard analítico.",
   "author": "luskas8",
   "private": true,
@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest --config jest.config.json",
     "test:watch": "jest --watch",
