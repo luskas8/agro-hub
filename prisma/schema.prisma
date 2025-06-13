@@ -56,8 +56,8 @@ model Farm {
   createdAt               DateTime      @default(now())
   updatedAt               DateTime      @updatedAt
   producer                RuralProducer @relation(fields: [producerId], references: [id])
-  crops                   Crop[]
   isActive                Boolean       @default(true)
+  harvest                 Harvest[]
 
   @@unique([producerId, name])
   @@index([state])
@@ -65,14 +65,28 @@ model Farm {
   @@map("farm")
 }
 
-model Crop {
+model Harvest {
+  id           String        @id @default(uuid())
+  harverstYear Int
+  farmId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  farm         Farm          @relation(fields: [farmId], references: [id])
+  cultivation  Cultivation[]
+
+  @@unique([farmId, harverstYear])
+  @@index([farmId])
+  @@map("harvest")
+}
+
+model Cultivation {
   id        Int      @id @default(autoincrement())
   name      String
-  farmId    String
+  harvestId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  farm      Farm     @relation(fields: [farmId], references: [id])
+  harvest   Harvest  @relation(fields: [harvestId], references: [id])
 
   @@index([name])
-  @@map("crop")
+  @@map("cultivation")
 }
