@@ -30,8 +30,7 @@ DOCKERFILE_PATH="${DIR}/../build/docker/compose.yaml"
 # prepare local repository for development environment
 if [[ "$CMD_ARG" == "$SETUP_ARG" ]]; then
     echo "Setting up local repository for development environment..."
-    LOCAL_FOLDER="${DIR}/../local"
-    PRISMA_FOLDER="${DIR}/../prisma"
+    LOCAL_FOLDER="${DIR}/../"
     mkdir -p "$LOCAL_FOLDER"
     mkdir -p "$PRISMA_FOLDER"
     touch "${LOCAL_FOLDER}/.env"
@@ -43,9 +42,7 @@ if [[ "$CMD_ARG" == "$SETUP_ARG" ]]; then
     echo "NODE_ENV=dev" >> "${LOCAL_FOLDER}/.env"
     echo "NODE_ENV=dev" >> "${LOCAL_FOLDER}/.env"
     echo "PORT=3003" >> "${LOCAL_FOLDER}/.env"
-    echo "DATABASE_URL=\"postgresql://backend-ah:backend-ah@postgres:5432/dev-ah\"" >> "${LOCAL_FOLDER}/.env"
-    # add prisma settings
-    echo "DATABASE_URL=\"postgresql://backend-ah:backend-ah@localhost:5432/dev-ah\"" >> "${PRISMA_FOLDER}/.env"
+    echo "DATABASE_URL=\"postgresql://backend-ah:backend-ah@localhost:5432/dev-ah\"" >> "${LOCAL_FOLDER}/.env"
 # run the local repository
 elif [[ "$CMD_ARG" == "$RUN_ARG" ]]; then
     echo "Running local repository..."

@@ -1,5 +1,7 @@
 #!/bin/sh
 
-npm run db:deploy
+npm run prisma:deploy
+
+npm run prisma:generate
 
 npm run start:dev

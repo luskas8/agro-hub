@@ -1,5 +1,9 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
   "testEnvironment": "node",
   "testPathIgnorePatterns": [
@@ -17,5 +21,12 @@
   },
   "transformIgnorePatterns": [
     "node_modules/(?!@nestjs/.*|@prisma/.*|nestjs-pino|pino-http)"
-  ]
+  ],
+  "moduleNameMapper": {
+    "^@app-prisma/(.*)$": "<rootDir>/src/prisma/$1",
+    "^@src/(.*)$": "<rootDir>/src/$1",
+    "^@rural-producer/(.*)$": "<rootDir>/src/rural-producer/$1",
+    "^@user/(.*)$": "<rootDir>/src/user/$1",
+    "^@auth/(.*)$": "<rootDir>/src/auth/$1"
+  }
 }

@@ -1,10 +1,10 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
+import { description, version } from '../package.json';
 import { AppModule } from './app.module';
 import { PrismaService } from './prisma/prisma.service';
-import { version, description } from '../package.json';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,13 +14,11 @@ async function bootstrap() {
   const corsOrigin = configService.get<string>('CORS_ORIGIN') || '*';
 
   if (nodeEnv !== 'test') {
-    app.useLogger(app.get(Logger)); // Use logger only if not in test environment
+    // Desabilita o logger em ambiente de teste
+    app.useLogger(app.get(Logger));
   }
 
-  app.setGlobalPrefix('api', {
-    exclude: ['health'],
-  });
-  app.enableCors({ origin: corsOrigin });
+  app.enableCors({ origin: corsOrigin, credentials: true });
 
   const prismaService = app.get(PrismaService);
   prismaService.enableShutdownHooks(app);
@@ -32,7 +30,7 @@ async function bootstrap() {
     .addTag('agro-hub', description)
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, documentFactory);
+  SwaggerModule.setup('docs', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3003);
 }

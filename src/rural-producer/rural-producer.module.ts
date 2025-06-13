@@ -5,5 +5,6 @@ import { RuralProducerService } from './rural-producer.service';
 @Module({
   controllers: [RuralProducerController],
   providers: [RuralProducerService],
+  exports: [RuralProducerService],
 })
 export class RuralProducerModule {}

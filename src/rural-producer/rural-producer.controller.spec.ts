@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
-import { Prisma } from '../prisma/generated/client';
-import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '@app-prisma/prisma.service';
 import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { RuralProducerController } from './rural-producer.controller';

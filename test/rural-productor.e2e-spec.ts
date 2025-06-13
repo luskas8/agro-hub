@@ -1,13 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Prisma } from '../src/prisma/generated/client';
+import { RuralProducer } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
-import { UpdateRuralProducerDto } from 'src/rural-producer/dto/update-rural-producer.dto';
+import { UpdateRuralProducerDto } from '@rural-producer/dto/update-rural-producer.dto';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
-import { CreateRuralProducerDto } from '../src/rural-producer/dto/create-rural-producer.dto';
-import { RuralProducerService } from '../src/rural-producer/rural-producer.service';
+import { CreateRuralProducerDto } from '@rural-producer/dto/create-rural-producer.dto';
+import { RuralProducerService } from '@rural-producer/rural-producer.service';
 
 describe('RuralProducerController (e2e)', () => {
   let app: INestApplication<App>;
@@ -32,7 +32,7 @@ describe('RuralProducerController (e2e)', () => {
       isActive: true,
     };
 
-    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockRuralProducer: RuralProducer = {
       id: 'some-uuid',
       ...createRuralProducerDto,
       createdAt: new Date(),
@@ -90,7 +90,7 @@ describe('RuralProducerController (e2e)', () => {
       isActive: true,
     };
 
-    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockRuralProducer: RuralProducer = {
       id: randomUUID(),
       ...createRuralProducerDto,
       createdAt: new Date(),
@@ -152,7 +152,7 @@ describe('RuralProducerController (e2e)', () => {
       isActive: true,
     };
 
-    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockRuralProducer: RuralProducer = {
       id: randomUUID(),
       ...createRuralProducerDto,
       createdAt: new Date(),
@@ -174,7 +174,7 @@ describe('RuralProducerController (e2e)', () => {
       name: 'Updated Name',
     };
 
-    const mockUpdatedRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockUpdatedRuralProducer: RuralProducer = {
       id,
       documentNumber: createRuralProducerDto.documentNumber,
       documentType: createRuralProducerDto.documentType,
@@ -182,7 +182,6 @@ describe('RuralProducerController (e2e)', () => {
       name: 'Updated Name',
       createdAt: new Date(),
       updatedAt: new Date(),
-      properties: undefined,
     };
 
     jest
@@ -208,7 +207,7 @@ describe('RuralProducerController (e2e)', () => {
       isActive: true,
     };
 
-    const mockRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockRuralProducer: RuralProducer = {
       id: randomUUID(),
       ...createRuralProducerDto,
       createdAt: new Date(),
@@ -223,9 +222,9 @@ describe('RuralProducerController (e2e)', () => {
       .post(baseUrl)
       .send(createRuralProducerDto);
 
-    const id = mockRuralProducer.id!;
+    const id = mockRuralProducer.id;
 
-    const mockDeletedRuralProducer: Prisma.RuralProducerCreateInput = {
+    const mockDeletedRuralProducer: RuralProducer = {
       ...mockRuralProducer,
       isActive: false,
       updatedAt: new Date(),

@@ -3,7 +3,27 @@
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
+  "testPathIgnorePatterns": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    ".next",
+    ".nuxt",
+    "out",
+    "public"
+  ],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "transformIgnorePatterns": [
+    "node_modules/(?!@nestjs/.*|@prisma/.*|nestjs-pino|pino-http)"
+  ],
+  "moduleNameMapper": {
+    "^@app-prisma/(.*)$": "<rootDir>/../src/prisma/$1",
+    "^@src/(.*)$": "<rootDir>/../src/$1",
+    "^@rural-producer/(.*)$": "<rootDir>/../src/rural-producer/$1",
+    "^@user/(.*)$": "<rootDir>/../src/user/$1",
+    "^@auth/(.*)$": "<rootDir>/../src/auth/$1"
   }
 }

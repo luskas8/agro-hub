@@ -11,7 +11,7 @@ import {
   Post,
   ValidationPipe,
 } from '@nestjs/common';
-import { Prisma } from '../prisma/generated/client';
+import { Prisma, RuralProducer } from '@prisma/client';
 import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { DocumentTypePipe } from './pipes/document-type';
@@ -59,7 +59,7 @@ export class RuralProducerController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body(ValidationPipe)
     updateRuralProducerDto: UpdateRuralProducerDto,
-  ): Promise<Prisma.RuralProducerUpdateInput> {
+  ): Promise<RuralProducer | null> {
     this.logger.warn(`Updating rural productor with ID: ${id}`);
     return this.RuralProducerService.update(id, updateRuralProducerDto);
   }

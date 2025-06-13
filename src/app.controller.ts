@@ -1,9 +1,4 @@
-import {
-  Controller,
-  ForbiddenException,
-  Get,
-  HttpException,
-} from '@nestjs/common';
+import { Controller, Get, HttpStatus, Redirect } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
 @Controller()
@@ -19,16 +14,17 @@ export class AppController {
   }
 
   @ApiResponse({
-    status: 403,
-    description: 'Forbidden',
-    type: HttpException,
+    status: 308,
+    description: 'Redirect',
+    type: String,
     example: {
-      message: 'Forbidden',
-      statusCode: 403,
+      message: 'Redirecting to documentation',
+      statusCode: 308,
     },
   })
   @Get()
-  index(): HttpException {
-    throw new ForbiddenException('');
+  @Redirect('docs', HttpStatus.PERMANENT_REDIRECT)
+  index() {
+    return { message: 'Redirecting to documentation' };
   }
 }

@@ -1,6 +1,6 @@
+import { PrismaService } from '@app-prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '../prisma/generated/client';
-import { PrismaService } from '../prisma/prisma.service';
+import { RuralProducer } from '@prisma/client';
 import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 
@@ -12,7 +12,7 @@ export class RuralProducerService {
 
   async create(
     createRuralProducerDto: CreateRuralProducerDto,
-  ): Promise<Prisma.RuralProducerCreateInput> {
+  ): Promise<RuralProducer> {
     this.logger.debug('Saving rural productor data');
     const data = await this.prismaService.ruralProducer.create({
       data: createRuralProducerDto,
@@ -21,7 +21,7 @@ export class RuralProducerService {
     return data;
   }
 
-  async findAll(): Promise<Prisma.RuralProducerCreateInput[]> {
+  async findAll(): Promise<RuralProducer[]> {
     return await this.prismaService.ruralProducer.findMany({
       where: {
         isActive: true,
@@ -29,7 +29,7 @@ export class RuralProducerService {
     });
   }
 
-  findOne(id: string): Promise<Prisma.RuralProducerCreateInput | null> {
+  findOne(id: string): Promise<RuralProducer | null> {
     return this.prismaService.ruralProducer.findUnique({
       where: { id },
     });
@@ -38,16 +38,16 @@ export class RuralProducerService {
   async update(
     id: string,
     dto: UpdateRuralProducerDto,
-  ): Promise<Prisma.RuralProducerUpdateInput> {
+  ): Promise<RuralProducer | null> {
     const data = UpdateRuralProducerDto.toPrisma(dto);
     const respult = await this.prismaService.ruralProducer.update({
       where: { id },
       data: { ...data },
     });
-    return UpdateRuralProducerDto.toPrisma(respult);
+    return respult;
   }
 
-  async remove(id: string): Promise<Prisma.RuralProducerUpdateInput> {
+  async remove(id: string): Promise<RuralProducer> {
     const data = UpdateRuralProducerDto.toPrisma({
       isActive: false,
     });

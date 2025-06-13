@@ -17,6 +17,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@app-prisma/*": ["./src/prisma/*"],
+      "@src/*": ["./src/*"],
+      "@rural-producer/*": ["./src/rural-producer/*"],
+      "@user/*": ["./src/user/*"],
+      "@auth/*": ["./src/auth/*"],
+    }
   }
 }

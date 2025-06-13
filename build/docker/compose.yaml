@@ -9,8 +9,15 @@ services:
     volumes:
       - ../../src:/app/src
       - ../../prisma:/app/prisma
-    env_file:
-      - ../../local/.env
+    environment:
+      DATABASE_DB: "dev-ah"
+      DATABASE_USER: "backend-ah"
+      DATABASE_PASSWORD: "backend-ah"
+      NODE_ENV: "dev"
+      PORT: 3003
+      DATABASE_URL: "postgresql://backend-ah:backend-ah@postgres:5432/dev-ah"
+    # env_file:
+    #   - ../../.env
     depends_on:
       - postgres
     profiles:
@@ -24,7 +31,7 @@ services:
     ports:
       - "3003:3003"
     env_file:
-      - ../../local/.env
+      - ../../.env
     profiles:
       - prod
 
