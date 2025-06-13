@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NextFunction, Request, Response } from 'express';
 import * as expressBasicAuth from 'express-basic-auth';
 import { Logger } from 'nestjs-pino';
 import { description, version } from '../package.json';
@@ -27,13 +28,16 @@ async function bootstrap() {
   const appUser = {
     [swaggerUsername]: swaggerPassword,
   };
-  app.use(
-    ['/docs', '/docs-json'],
-    expressBasicAuth({
-      challenge: true,
-      users: appUser,
-    }),
-  );
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.path === '/health') {
+      next(); // Pula a autenticação para a rota /health
+    } else {
+      void expressBasicAuth({
+        challenge: true,
+        users: appUser,
+      })(req, res, next);
+    }
+  });
   const config = new DocumentBuilder()
     .setTitle('Agro Hub API')
     .setDescription('Documentation for the Agro Hub API')
