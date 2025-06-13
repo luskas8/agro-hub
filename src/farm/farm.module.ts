@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { FarmService } from './farm.service';
-import { FarmController } from './farm.controller';
 import { RuralProducerModule } from '@src/rural-producer/rural-producer.module';
+import { FarmController } from './farm.controller';
+import { FarmService } from './farm.service';
 
 @Module({
   imports: [RuralProducerModule],

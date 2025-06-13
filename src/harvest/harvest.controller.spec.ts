@@ -1,4 +1,5 @@
 import { PrismaService } from '@app-prisma/prisma.service';
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Cultivation, Farm, Harvest } from '@prisma/client';
 import { FarmService } from '@src/farm/farm.service';
@@ -31,7 +32,7 @@ describe('HarvestController', () => {
       jest
         .spyOn(farmService, 'findOne')
         .mockResolvedValue({ id: 'farm-id' } as Farm);
-      jest.spyOn(service, 'isDuplicate').mockResolvedValue(false);
+      jest.spyOn(service, 'isDuplicate').mockResolvedValue(null);
       jest
         .spyOn(service, 'create')
         .mockResolvedValue({ id: 'harvest-id', ...dto } as unknown as Harvest);
@@ -54,10 +55,12 @@ describe('HarvestController', () => {
       jest
         .spyOn(farmService, 'findOne')
         .mockResolvedValue({ id: 'farm-id' } as Farm);
-      jest.spyOn(service, 'isDuplicate').mockResolvedValue(true);
+      jest
+        .spyOn(service, 'isDuplicate')
+        .mockResolvedValue({ id: 'harvest-id' } as Harvest);
 
-      await expect(controller.create(dto)).rejects.toThrowError(
-        'Duplicate harvest year for this farm',
+      await expect(controller.create(dto)).rejects.toBeInstanceOf(
+        BadRequestException,
       );
     });
 
@@ -66,7 +69,7 @@ describe('HarvestController', () => {
       jest
         .spyOn(farmService, 'findOne')
         .mockResolvedValue({ id: 'farm-id' } as Farm);
-      jest.spyOn(service, 'isDuplicate').mockResolvedValue(false);
+      jest.spyOn(service, 'isDuplicate').mockResolvedValue(null);
       jest.spyOn(service, 'create').mockResolvedValue(null);
 
       await expect(controller.create(dto)).rejects.toThrowError(

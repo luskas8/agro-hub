@@ -8,21 +8,21 @@ import { CreateHarvestCultivationDto } from './dto/create-harvest-cultivation.dt
 export class HarvestService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async isDuplicate(farmId: string, harvestYear: number): Promise<boolean> {
-    const farm = await this.prismaService.harvest.findFirst({
-      select: {
-        id: true,
-      },
+  async isDuplicate(
+    farmId: string,
+    harvestYear: number,
+  ): Promise<Harvest | null> {
+    const harvest = await this.prismaService.harvest.findFirst({
       where: {
         farmId: farmId,
         harverstYear: harvestYear,
       },
     });
 
-    if (farm) {
-      return true;
+    if (!harvest) {
+      return null;
     }
-    return false;
+    return harvest;
   }
 
   async create(dto: CreateHarvestDto): Promise<Harvest | null> {
@@ -75,13 +75,13 @@ export class HarvestService {
   }
 
   async addCultivation(
-    id: string,
+    harvestId: string,
     dto: CreateHarvestCultivationDto,
   ): Promise<Cultivation | null> {
     const cultivation = await this.prismaService.cultivation.create({
       data: {
         name: dto.name,
-        harvestId: id,
+        harvestId: harvestId,
       },
     });
     if (!cultivation) {

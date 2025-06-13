@@ -33,7 +33,11 @@ export class HarvestController {
       throw new BadRequestException('Farm not found');
     }
 
-    if (await this.harvestService.isDuplicate(dto.farmId, dto.harvestYear)) {
+    const existingHarvest = await this.harvestService.isDuplicate(
+      dto.farmId,
+      dto.harvestYear,
+    );
+    if (existingHarvest !== null) {
       throw new BadRequestException('Duplicate harvest year for this farm');
     }
 

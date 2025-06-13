@@ -1,10 +1,10 @@
 import { PrismaService } from '@app-prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { Farm, Prisma } from '@prisma/client';
+import { Cultivation, Farm, Harvest, Prisma } from '@prisma/client';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import {
-  OmitProduceIdFarmsQueryDto,
   FarmQueryParamsDto,
+  OmitProduceIdFarmsQueryDto,
 } from './dto/farm-query-params.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
 
@@ -188,5 +188,50 @@ export class FarmService {
         totalFarms: _all,
       };
     });
+  }
+
+  async addCultivation(
+    harvestId: string,
+    cultivationName: string,
+  ): Promise<Cultivation | null> {
+    const cultivation = await this.prismaService.cultivation.create({
+      data: {
+        harvestId,
+        name: cultivationName,
+      },
+    });
+    if (!cultivation) {
+      return null;
+    }
+
+    return cultivation;
+  }
+
+  async getOrCreateHarvest(
+    farmId: string,
+    harverstYear: number,
+  ): Promise<Harvest | null> {
+    const existingHarvest = await this.prismaService.harvest.findFirst({
+      where: {
+        farmId,
+        harverstYear,
+      },
+    });
+
+    if (existingHarvest) {
+      return existingHarvest;
+    }
+
+    const harvest = await this.prismaService.harvest.create({
+      data: {
+        farmId,
+        harverstYear,
+      },
+    });
+    if (!harvest) {
+      return null;
+    }
+
+    return harvest;
   }
 }

@@ -15,8 +15,9 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { Farm } from '@prisma/client';
+import { Cultivation, Farm } from '@prisma/client';
 import { RuralProducerService } from '@src/rural-producer/rural-producer.service';
+import { CreateFarmCultivationDto } from './dto/create-farm-cultivation.dto';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import {
   FarmQueryParamsDto,
@@ -247,5 +248,60 @@ export class FarmController {
     }
 
     return farm;
+  }
+
+  @Post(':id/cultivation')
+  async addCultivation(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    cultivationDto: CreateFarmCultivationDto,
+  ): Promise<Cultivation | HttpException> {
+    const farm = await this.farmService.findOne(id);
+    if (!farm) {
+      throw new NotFoundException(
+        `Fazenda com ID: ${id} não encontrada para adicionar cultivo`,
+        'FARM_NOT_FOUND',
+      );
+    }
+    const harvest = await this.farmService.getOrCreateHarvest(
+      id,
+      cultivationDto.harvestYear,
+    );
+    if (!harvest) {
+      this.logger.warn(
+        `Erro ao obter ou criar safra para fazenda com ID: ${id}`,
+      );
+      throw new InternalServerErrorException(
+        'Erro ao obter ou criar safra para a fazenda',
+        {
+          cause: 'HARVEST_CREATION_FAILED',
+          description: 'Ocorreu um erro ao obter ou criar a safra.',
+        },
+      );
+    }
+
+    const cultivation = await this.farmService.addCultivation(
+      harvest.id,
+      cultivationDto.name,
+    );
+    if (!cultivation) {
+      this.logger.warn(
+        `Erro ao adicionar cultivo: ${JSON.stringify(cultivationDto)} na fazenda com ID: ${id}`,
+      );
+      throw new InternalServerErrorException(
+        'Cultivo não adicionado, erro interno no servidor',
+        {
+          cause: 'CULTIVATION_CREATION_FAILED',
+          description: 'Ocorreu um erro ao adicionar o cultivo.',
+        },
+      );
+    }
+
+    return cultivation;
   }
 }
