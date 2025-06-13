@@ -11,17 +11,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const nodeEnv = configService.get<string>('NODE_ENV');
   const corsOrigin = configService.get<string>('CORS_ORIGIN') || '*';
   const swaggerUsername =
     configService.get<string>('SWAGGER_USERNAME') || 'swagger-username';
   const swaggerPassword =
     configService.get<string>('SWAGGER_PASSWORD') || 'swagger-password';
 
-  if (nodeEnv !== 'test') {
-    // Desabilita o logger em ambiente de teste
-    app.useLogger(app.get(Logger));
-  }
+  app.useLogger(app.get(Logger));
 
   app.enableCors({ origin: corsOrigin, credentials: true });
 

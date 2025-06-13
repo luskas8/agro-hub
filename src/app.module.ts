@@ -33,6 +33,7 @@ import { FarmModule } from './farm/farm.module';
               ],
               censor: '********',
             },
+            enabled: nodeEnv !== 'test',
           },
         };
       },
