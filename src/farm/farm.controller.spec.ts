@@ -74,10 +74,8 @@ describe('FarmController', () => {
       const wrongInput = { ...input, producerId: '' };
 
       jest
-        .spyOn(service, 'findOne')
-        .mockImplementation(() =>
-          Promise.reject(new BadRequestException('PRODUCER_NOT_FOUND')),
-        );
+        .spyOn(ruralProducerService, 'findOne')
+        .mockImplementation(() => Promise.resolve(null));
 
       await expect(controller.create(wrongInput)).rejects.toBeInstanceOf(
         HttpException,
@@ -210,7 +208,7 @@ describe('FarmController', () => {
     });
 
     it('should throw NotFoundException when Farm not found for update', async () => {
-      jest.spyOn(service, 'update').mockResolvedValue(null);
+      jest.spyOn(service, 'findOne').mockResolvedValue(null);
 
       await expect(
         controller.update('INVALID_ID', updateInput),

@@ -29,8 +29,8 @@ export class RuralProducerService {
     });
   }
 
-  findOne(id: string): Promise<RuralProducer | null> {
-    return this.prismaService.ruralProducer.findUnique({
+  async findOne(id: string): Promise<RuralProducer | null> {
+    return await this.prismaService.ruralProducer.findUnique({
       where: { id },
     });
   }
