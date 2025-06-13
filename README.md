@@ -1,98 +1,129 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Agro-hub
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+O Agro-hub é uma API robusta desenvolvida em NestJS, utilizando PostgreSQL como banco de dados e Prisma ORM para gerenciamento de dados. Esta aplicação foi projetada para otimizar a gestão de produtores rurais e suas propriedades agrícolas, oferecendo funcionalidades essenciais para cadastro, validação de informações e um dashboard analítico.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Menu Agro-hub
 
-## Description
+*   [Acesso à API](#acesso-à-api)
+*   [Contato para Acesso à API](#contato-para-acesso-à-api)
+*   [Como Buildar e Configurar o Projeto](#como-buildar-e-configurar-o-projeto)
+*   [Como Executar Localmente](#como-executar-localmente)
+*   [Requisitos de Negócio (User Cases)](#requisitos-de-negócio-user-cases)
+*   [Documentação da API (Swagger)](#documentação-da-api-swagger)
+*   [Autenticação da API: Basic Auth](#autenticação-da-api-basic-auth)
+*   [Próximos Passos: Usuários e Autenticação JWT](#próximos-passos-usuários-e-autenticação-jwt)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Acesso à API
 
-## Project setup
+A API do Agro-hub está disponível publicamente em:
 
-```bash
-$ npm install
-```
+`https://api.luskas8.pro`
 
-## Compile and run the project
+### Contato para Acesso à API
+Para solicitar acesso à API do Agro-hub ou para qualquer dúvida e suporte, por favor, entre em contato através do e-mail:
 
-```bash
-# development
-$ npm run start
+**LinkedIn:** https://www.linkedin.com/in/luskas8/
 
-# watch mode
-$ npm run start:dev
+**E-mail:** luskanjos@gmail.com
 
-# production mode
-$ npm run start:prod
-```
+**Assunto do E-mail:** [Agro-hub] Solicitação de Acesso à API
 
-## Run tests
+Ao enviar o e-mail, por favor, inclua uma breve descrição do seu interesse ou do projeto para o qual você precisa de acesso.
 
-```bash
-# unit tests
-$ npm run test
+## Como Buildar e Configurar o Projeto
 
-# e2e tests
-$ npm run test:e2e
+Para configurar e buildar o projeto localmente, siga os passos abaixo:
 
-# test coverage
-$ npm run test:cov
-```
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/luskas8/agro-hub.git
+    cd agro-hub
+    ```
 
-## Deployment
+2.  **Crie o arquivo `.env` local:**
+    Execute o script `dev-utils.sh` para gerar o arquivo de variáveis de ambiente necessário para a execução local.
+    ```bash
+    ./scripts/dev-utils.sh setup
+    ```
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Como Executar Localmente
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Após configurar o arquivo `.env`, você pode iniciar a aplicação e o banco de dados localmente usando Docker Compose:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+1.  **Inicie os serviços:**
+    ```bash
+    ./scripts/dev-utils.sh run
+    ```
+    Este comando irá construir as imagens Docker (se necessário), iniciar os contêineres do PostgreSQL e da aplicação NestJS.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2.  **Acesse a aplicação:**
+    A API estará disponível em `http://localhost:3003` (ou na porta configurada no seu `.env`).
 
-## Resources
+3.  **Para parar e remover os contêineres:**
+    ```bash
+    ./scripts/dev-utils.sh down
+    ```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Requisitos de Negócio (User Cases)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+O Agro-hub atende aos seguintes requisitos de negócio, apresentados como user cases:
 
-## Support
+*   **Gerenciamento de Produtores Rurais:**
+    *   Como um usuário, desejo cadastrar novos produtores rurais, fornecendo suas informações básicas.
+    *   Como um usuário, desejo editar as informações de produtores rurais existentes.
+    *   Como um usuário, desejo excluir produtores rurais do sistema.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+*   **Validação de Documentos:**
+    *   Como um usuário, desejo que o sistema valide automaticamente o formato do CPF ou CNPJ fornecido durante o cadastro do produtor rural.
 
-## Stay in touch
+*   **Validação de Áreas da Fazenda:**
+    *   Como um usuário, desejo que o sistema garanta que a soma da área agricultável e da área de vegetação de uma fazenda não exceda a área total da fazenda.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+*   **Registro de Culturas por Fazenda:**
+    *   Como um usuário, desejo registrar múltiplas culturas plantadas para cada fazenda de um produtor.
 
-## License
+*   **Associação Produtor-Propriedade:**
+    *   Como um produtor rural, posso estar associado a zero, uma ou várias propriedades rurais.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+*   **Registro de Culturas por Safra:**
+    *   Como uma propriedade rural, posso ter zero, uma ou várias culturas plantadas por safra.
+
+*   **Dashboard Analítico:**
+    *   Como um usuário, desejo visualizar um dashboard que exiba o total de fazendas cadastradas.
+    *   Como um usuário, desejo visualizar um dashboard que exiba o total de hectares registrados (área total de todas as fazendas).
+    *   Como um usuário, desejo visualizar gráficos de pizza que mostrem a distribuição de fazendas por estado.
+    *   Como um usuário, desejo visualizar gráficos de pizza que mostrem a distribuição de culturas plantadas.
+    *   Como um usuário, desejo visualizar gráficos de pizza que mostrem a distribuição do uso do solo (área agricultável vs. área de vegetação).
+
+## Documentação da API (Swagger)
+
+A documentação completa da API está disponível através do Swagger UI. Após iniciar a aplicação localmente, você pode acessá-la em:
+
+`http://localhost:3003/docs`
+
+Esta documentação interativa permite explorar todos os endpoints disponíveis, seus parâmetros de requisição e exemplos de resposta.
+
+## Autenticação da API: Basic Auth
+
+Todas as rotas desta API são protegidas por autenticação Basic Auth. Isso significa que para acessar qualquer endpoint, você precisará fornecer um nome de usuário e uma senha válidos na requisição HTTP.
+
+### Como Autenticar
+
+Para realizar requisições autenticadas, inclua o cabeçalho `Authorization` com o tipo `Basic` seguido de uma string codificada em Base64 no formato `username:password`.
+
+## Próximos Passos: Usuários e Autenticação JWT
+
+Para garantir a segurança e o controle de acesso à API, os próximos passos incluem a implementação de um sistema de usuários e autenticação baseado em JSON Web Tokens (JWT).
+
+*   **Módulo de Usuários:**
+    *   Criar um novo módulo para gerenciar usuários, incluindo cadastro (com hash de senhas), login e gerenciamento de perfis.
+    *   Definir um esquema de banco de dados para armazenar informações de usuário (e-mail, senha, etc.).
+
+*   **Autenticação JWT:**
+    *   Implementar estratégias de autenticação JWT para proteger as rotas da API.
+    *   Gerar tokens JWT no login do usuário e validá-los em requisições subsequentes.
+    *   Utilizar `Guards` e `Decorators` do NestJS para proteger endpoints específicos, garantindo que apenas usuários autenticados e autorizados possam acessá-los.
+    *   Considerar a implementação de refresh tokens para melhorar a experiência do usuário e a segurança.
+
+*   **Autorização:**
+    *   Adicionar um sistema de roles (papéis) ou permissões para controlar o acesso a funcionalidades específicas com base no tipo de usuário (ex: administrador, produtor).
