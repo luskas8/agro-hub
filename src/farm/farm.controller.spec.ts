@@ -5,6 +5,7 @@ import { Farm, RuralProducer } from '@prisma/client';
 import { RuralProducerService } from '@src/rural-producer/rural-producer.service';
 import { FarmController } from './farm.controller';
 import { FarmService } from './farm.service';
+import { OmitProduceIdFarmsQueryDto } from './dto/farm-query-params.dto';
 
 describe('FarmController', () => {
   let controller: FarmController;
@@ -126,10 +127,14 @@ describe('FarmController', () => {
           isActive: true,
         },
       ];
+      const queryParams = {
+        isActive: undefined,
+        name: undefined,
+      } as OmitProduceIdFarmsQueryDto;
 
       jest.spyOn(service, 'findAll').mockResolvedValue(output);
 
-      const result = await controller.findAll();
+      const result = await controller.findAll(queryParams);
       expect(result).toBeDefined();
       expect(result).toEqual(output);
       expect(result).toBeInstanceOf(Array);
