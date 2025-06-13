@@ -22,6 +22,8 @@ services:
       - postgres
     profiles:
       - dev
+    networks:
+      - default
 
   app-prod:
     container_name: nestjs-app-prod
@@ -34,6 +36,8 @@ services:
       - ../../.env
     profiles:
       - prod
+    networks:
+      - default
 
   postgres:
     container_name: postgres
@@ -46,6 +50,13 @@ services:
       - ../../postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - default
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    name: nestjs-app-network
+    driver: bridge

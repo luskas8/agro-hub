@@ -72,5 +72,12 @@ elif [[ "$CMD_ARG" == "$RUN_ARG" ]]; then
 # stop the local repository
 elif [[ "$CMD_ARG" == "$DOWN_ARG" ]]; then
     echo "Stopping local repository..."
-    docker compose --file "$DOCKERFILE_PATH" --profile "*" down
+    POST_UP_ARGS=""
+    for var in "${@:2}"
+    do
+        POST_UP_ARGS+="$var "
+    done
+    echo $POST_UP_ARGS
+    echo "docker compose --file \"$DOCKERFILE_PATH\" --profile \"*\" down $POST_UP_ARGS"
+    docker compose --file "$DOCKERFILE_PATH" --profile "*" down $POST_UP_ARGS
 fi
