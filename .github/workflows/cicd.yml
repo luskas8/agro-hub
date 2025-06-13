@@ -58,6 +58,8 @@ jobs:
   apply-migrations:
     runs-on: ubuntu-latest
     container: node:22-alpine
+    needs: build-image
+    if: success()
 
     steps:
       - uses: actions/checkout@v4
