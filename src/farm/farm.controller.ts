@@ -12,11 +12,16 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { Farm } from '@prisma/client';
 import { RuralProducerService } from '@src/rural-producer/rural-producer.service';
 import { CreateFarmDto } from './dto/create-farm.dto';
+import {
+  FarmQueryParamsDto,
+  OmitProduceIdFarmsQueryDto,
+} from './dto/farm-query-params.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
 import { FarmService } from './farm.service';
 import { FarmSizeUseCase } from './use-cases/farm-size.use-case';
@@ -76,35 +81,70 @@ export class FarmController {
   }
 
   @Get()
-  findAll(): Promise<Farm[]> {
-    return this.farmService.findAll();
+  findAll(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    queryParams: OmitProduceIdFarmsQueryDto,
+  ): Promise<Farm[]> {
+    return this.farmService.findAll(queryParams);
   }
 
   @Get('dashboard/totals')
-  async farmDashboardTotals(): Promise<{
+  async farmDashboardTotals(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    queryParams: FarmQueryParamsDto,
+  ): Promise<{
     totalFarms: number;
     totalArea: number;
   }> {
-    const reseult = await this.farmService.farmDashboardTotals();
+    const reseult = await this.farmService.farmDashboardTotals(queryParams);
     return reseult;
   }
 
-  @Get('dashboard/aggregate/by-states')
-  async farmDashboardAggregateStates(): Promise<
+  @Get('dashboard/aggregate/states')
+  async farmDashboardAggregateStates(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    queryParams: FarmQueryParamsDto,
+  ): Promise<
     {
       state: string;
       totalFarms: number;
     }[]
   > {
-    const reseult = await this.farmService.farmDashboardAggregateStates();
-    return reseult;
+    const result =
+      await this.farmService.farmDashboardAggregateStates(queryParams);
+    return result;
   }
 
-  @Get('rutal-producer/:producerId')
-  async findRuralProducerFarms(
+  @Get('rural-producer/:producerId')
+  async findByRuralProducerId(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    queryParams: OmitProduceIdFarmsQueryDto,
     @Param('producerId', ParseUUIDPipe) producerId: string,
   ): Promise<Farm[] | HttpException> {
-    return await this.farmService.findByRuralProducerId(producerId);
+    return await this.farmService.findByRuralProducerId(
+      producerId,
+      queryParams,
+    );
   }
 
   @Get(':id')
@@ -134,7 +174,6 @@ export class FarmController {
         'FARM_NOT_FOUND',
       );
     }
-
     if (updateFarmDto.producerId !== farm.producerId) {
       this.logger.verbose({
         code: 'FARM_RURAL_PRODUCER_UPDATE',
@@ -156,6 +195,7 @@ export class FarmController {
         );
       }
     }
+
     const updated = await this.farmService.update(id, updateFarmDto);
     if (!updated) {
       this.logger.warn(`Fazenda com ID: ${id} não atualizada`);
