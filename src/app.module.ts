@@ -1,16 +1,18 @@
+import { PrismaModule } from '@app-prisma/prisma.module';
+import { PrismaService } from '@app-prisma/prisma.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RuralProducerModule } from '@rural-producer/rural-producer.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
-import { PrismaModule } from './prisma/prisma.module';
-import { PrismaService } from './prisma/prisma.service';
-import { RuralProducerModule } from './rural-producer/rural-producer.module';
+import { FarmModule } from './farm/farm.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
+      envFilePath: ['.env'],
     }),
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
@@ -22,7 +24,13 @@ import { RuralProducerModule } from './rural-producer/rural-producer.module';
             transport:
               nodeEnv === 'dev' ? { target: 'pino-pretty' } : undefined,
             redact: {
-              paths: ['req.headers.authorization', 'req.headers.cookie'],
+              paths: [
+                'req.headers.authorization',
+                'req.headers.cookie',
+                'req.body.password',
+                'req.body.confirmPassword',
+                'req.body.documentNumber',
+              ],
               censor: '********',
             },
           },
@@ -31,6 +39,7 @@ import { RuralProducerModule } from './rural-producer/rural-producer.module';
     }),
     RuralProducerModule,
     PrismaModule,
+    FarmModule,
   ],
   controllers: [AppController],
   providers: [PrismaService],
