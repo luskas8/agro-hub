@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as expressBasicAuth from 'express-basic-auth';
 import { Logger } from 'nestjs-pino';
 import { description, version } from '../package.json';
 import { AppModule } from './app.module';
@@ -12,6 +13,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const nodeEnv = configService.get<string>('NODE_ENV');
   const corsOrigin = configService.get<string>('CORS_ORIGIN') || '*';
+  const swaggerUsername =
+    configService.get<string>('SWAGGER_USERNAME') || 'swagger-username';
+  const swaggerPassword =
+    configService.get<string>('SWAGGER_PASSWORD') || 'swagger-password';
 
   if (nodeEnv !== 'test') {
     // Desabilita o logger em ambiente de teste
@@ -23,6 +28,16 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService);
   prismaService.enableShutdownHooks(app);
 
+  const appUser = {
+    [swaggerUsername]: swaggerPassword,
+  };
+  app.use(
+    ['/docs', '/docs-json'],
+    expressBasicAuth({
+      challenge: true,
+      users: appUser,
+    }),
+  );
   const config = new DocumentBuilder()
     .setTitle('Agro Hub API')
     .setDescription('Documentation for the Agro Hub API')

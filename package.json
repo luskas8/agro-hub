@@ -1,6 +1,6 @@
 {
   "name": "agro-hub",
-  "version": "4.3.3",
+  "version": "4.4.0",
   "description": "API para gestão de produtores rurais e propriedades agrícolas, incluindo cadastro, validação de dados e dashboard analítico.",
   "author": "luskas8",
   "private": true,
@@ -31,6 +31,7 @@
     "@prisma/client": "^6.9.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "express-basic-auth": "^1.2.1",
     "nestjs-pino": "^4.4.0",
     "pino-http": "^10.5.0",
     "reflect-metadata": "^0.2.2",
