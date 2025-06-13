@@ -17,7 +17,6 @@ export class RuralProducerService {
     const data = await this.prismaService.ruralProducer.create({
       data: createRuralProducerDto,
     });
-    console.log(typeof data);
     return data;
   }
 
