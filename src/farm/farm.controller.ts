@@ -80,6 +80,26 @@ export class FarmController {
     return this.farmService.findAll();
   }
 
+  @Get('dashboard/totals')
+  async farmDashboardTotals(): Promise<{
+    totalFarms: number;
+    totalArea: number;
+  }> {
+    const reseult = await this.farmService.farmDashboardTotals();
+    return reseult;
+  }
+
+  @Get('dashboard/aggregate/by-states')
+  async farmDashboardAggregateStates(): Promise<
+    {
+      state: string;
+      totalFarms: number;
+    }[]
+  > {
+    const reseult = await this.farmService.farmDashboardAggregateStates();
+    return reseult;
+  }
+
   @Get('rutal-producer/:producerId')
   async findRuralProducerFarms(
     @Param('producerId', ParseUUIDPipe) producerId: string,

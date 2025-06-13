@@ -77,4 +77,37 @@ export class FarmService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async farmDashboardTotals(): Promise<{
+    totalFarms: number;
+    totalArea: number;
+  }> {
+    const [totalFarmsResult, totalAreaResult] = await Promise.all([
+      this.prismaService.farm.count(),
+      this.prismaService.farm.aggregate({
+        _sum: { totalAreaInHectares: true },
+      }),
+    ]);
+
+    return {
+      totalFarms: totalFarmsResult,
+      totalArea: totalAreaResult._sum.totalAreaInHectares || 0,
+    };
+  }
+
+  async farmDashboardAggregateStates(): Promise<
+    { state: string; totalFarms: number }[]
+  > {
+    const result = await this.prismaService.farm.groupBy({
+      by: ['state'],
+      _count: {
+        _all: true,
+      },
+    });
+
+    return result.map(({ state, _count: { _all } }) => ({
+      state: state,
+      totalFarms: _all,
+    }));
+  }
 }
