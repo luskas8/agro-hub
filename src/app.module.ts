@@ -6,6 +6,9 @@ import { RuralProducerModule } from '@rural-producer/rural-producer.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { FarmModule } from './farm/farm.module';
+import { HarvestModule } from './harvest/harvest.module';
+import { HarvestController } from './harvest/harvest.controller';
+import { HarvestService } from './harvest/harvest.service';
 
 @Module({
   imports: [
@@ -41,8 +44,9 @@ import { FarmModule } from './farm/farm.module';
     RuralProducerModule,
     PrismaModule,
     FarmModule,
+    HarvestModule,
   ],
-  controllers: [AppController],
-  providers: [PrismaService],
+  controllers: [AppController, HarvestController],
+  providers: [PrismaService, HarvestService],
 })
 export class AppModule {}

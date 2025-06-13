@@ -77,7 +77,5 @@ elif [[ "$CMD_ARG" == "$DOWN_ARG" ]]; then
     do
         POST_UP_ARGS+="$var "
     done
-    echo $POST_UP_ARGS
-    echo "docker compose --file \"$DOCKERFILE_PATH\" --profile \"*\" down $POST_UP_ARGS"
     docker compose --file "$DOCKERFILE_PATH" --profile "*" down $POST_UP_ARGS
 fi

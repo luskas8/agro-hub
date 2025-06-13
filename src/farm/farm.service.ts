@@ -45,10 +45,27 @@ export class FarmService {
     return await this.prismaService.farm.findMany(query);
   }
 
-  async findOne(id: string): Promise<Farm | null> {
-    const farm = await this.prismaService.farm.findUnique({
-      where: { id, isActive: true },
-    });
+  async findOne(
+    id: string,
+    queryParams: OmitProduceIdFarmsQueryDto = {},
+  ): Promise<Farm | null> {
+    const query: Prisma.FarmFindUniqueArgs = {
+      where: { id },
+    };
+    if (typeof queryParams.isActive === 'boolean') {
+      query.where = {
+        ...query.where,
+        isActive: queryParams.isActive,
+      };
+    }
+    if (queryParams.state) {
+      query.where = {
+        ...query.where,
+        state: queryParams.state,
+      };
+    }
+
+    const farm = await this.prismaService.farm.findUnique(query);
     if (!farm) {
       this.logger.debug(`Fazenda com ID ${id} não encontrada ou inativa.`);
       return null;

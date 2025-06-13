@@ -7,5 +7,6 @@ import { RuralProducerModule } from '@src/rural-producer/rural-producer.module';
   imports: [RuralProducerModule],
   controllers: [FarmController],
   providers: [FarmService],
+  exports: [FarmService],
 })
 export class FarmModule {}

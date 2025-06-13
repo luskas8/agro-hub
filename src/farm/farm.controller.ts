@@ -149,9 +149,16 @@ export class FarmController {
 
   @Get(':id')
   async findOne(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+      }),
+    )
+    queryParams: OmitProduceIdFarmsQueryDto,
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Farm | HttpException> {
-    const farm = await this.farmService.findOne(id);
+    const farm = await this.farmService.findOne(id, queryParams);
     if (!farm) {
       throw new NotFoundException(
         `Fazenda com ID: ${id} não encontrada`,

@@ -3,9 +3,9 @@ import { BadRequestException, HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Farm, RuralProducer } from '@prisma/client';
 import { RuralProducerService } from '@src/rural-producer/rural-producer.service';
+import { OmitProduceIdFarmsQueryDto } from './dto/farm-query-params.dto';
 import { FarmController } from './farm.controller';
 import { FarmService } from './farm.service';
-import { OmitProduceIdFarmsQueryDto } from './dto/farm-query-params.dto';
 
 describe('FarmController', () => {
   let controller: FarmController;
@@ -160,7 +160,7 @@ describe('FarmController', () => {
 
       jest.spyOn(service, 'findOne').mockResolvedValue(output);
 
-      const result = await controller.findOne('UUID');
+      const result = await controller.findOne({}, 'UUID');
       expect(result).toBeDefined();
       expect(result).toEqual(output);
     });
@@ -168,7 +168,7 @@ describe('FarmController', () => {
     it('should throw NotFoundException when Farm not found', async () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(null);
 
-      await expect(controller.findOne('INVALID_ID')).rejects.toThrow(
+      await expect(controller.findOne({}, 'INVALID_ID')).rejects.toThrow(
         HttpException,
       );
     });
