@@ -8,6 +8,8 @@ jobs:
     environment: manual-deploy
     runs-on: ubuntu-latest
     container: node:22-alpine
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v4
